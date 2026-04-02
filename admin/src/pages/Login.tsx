@@ -8,8 +8,8 @@ import { toast } from 'sonner'
 import { useAuth } from '@/context/AuthContext'
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().min(1, 'Username is required'),
+  password: z.string().min(1, 'Password is required'),
 })
 
 type LoginForm = z.infer<typeof loginSchema>
@@ -54,14 +54,14 @@ export default function Login() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-              Email
+              Username
             </label>
             <input
               id="email"
-              type="email"
+              type="text"
               {...register('email')}
               className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="admin@example.com"
+              placeholder="admin"
             />
             {errors.email && (
               <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>
