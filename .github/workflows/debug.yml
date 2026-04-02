@@ -8,23 +8,191 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Fix port conflict and restart muscle
+      - name: Seed production data
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            echo "=== Stopping orphaned admin container ==="
-            docker stop gamification-admin-prod || true
-            docker rm gamification-admin-prod || true
-            echo "=== Restarting gamification stack ==="
-            cd /var/www/gamification
-            docker-compose -f docker-compose.prod.yml down
-            docker-compose -f docker-compose.prod.yml up -d --build
-            echo "=== Waiting 15 seconds for services to start ==="
-            sleep 15
-            echo "=== Container status ==="
-            docker ps -a | grep gamification
-            echo "=== Muscle container logs ==="
-            docker logs gamification-muscle-prod --tail 50
+            echo "=== Step 1: Seed Neo4j (teams, players, users, badges, matches) ==="
+            docker exec gamification-muscle-prod ./muscle --seed --clear -v
+
+            echo ""
+            echo "=== Step 2: Seed Rules to Redis via API ==="
+            TOKEN=$(curl -s -X POST http://127.0.0.1:3010/api/v1/auth/login \
+              -H "Content-Type: application/json" \
+              -d '{"email":"admin","password":"admin123"}' | jq -r '.token')
+            
+            echo "Got auth token: ${TOKEN:0:20}..."
+
+            # Rule 1: Daily Login Reward
+            echo "Creating rule: Daily Login Reward..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_daily_reward",
+                "name": "Daily Login Reward",
+                "description": "Award 50 points for logging in daily",
+                "event_type": "daily_login",
+                "is_active": true,
+                "priority": 100,
+                "cooldown_seconds": 86000,
+                "actions": [{"action_type": "award_points", "params": {"points": 50, "reason": "Daily Reward"}}]
+              }' | jq .
+
+            # Rule 2: First Login / Welcome
+            echo "Creating rule: Hos Geldin Odulu..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_first_login",
+                "name": "Hoş Geldin Ödülü",
+                "description": "Uygulamaya ilk kez giriş yapan kullanıcılara verilir.",
+                "event_type": "daily_login",
+                "is_active": true,
+                "priority": 100,
+                "cooldown_seconds": 0,
+                "conditions": [{"evaluation_type": "aggregation", "field": "global_count", "operator": "==", "value": 1}],
+                "actions": [
+                  {"action_type": "award_points", "params": {"points": 500, "reason": "Kayıt Ödülü"}},
+                  {"action_type": "grant_badge", "params": {"badge_id": "badge_first_login", "points": 0}}
+                ]
+              }' | jq .
+
+            # Rule 3: 7-Day Streak
+            echo "Creating rule: 7-Day Login Streak..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_7_day_streak",
+                "name": "7-Day Login Streak",
+                "description": "Award 250 points for logging in 7 days in a row",
+                "event_type": "daily_login",
+                "is_active": true,
+                "priority": 200,
+                "cooldown_seconds": 604800,
+                "conditions": [{"evaluation_type": "aggregation", "field": "daily_streak", "operator": "==", "value": 7}],
+                "actions": [
+                  {"action_type": "award_points", "params": {"points": 250, "reason": "7-Day Streak Bonus"}},
+                  {"action_type": "grant_badge", "params": {"badge_id": "badge_streak_7", "points": 0}}
+                ]
+              }' | jq .
+
+            # Rule 4: Every 5 Ads Milestone
+            echo "Creating rule: Every 5 Ads Watched..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_5_ad_watch_milestone",
+                "name": "Every 5 Ads Watched Bonus",
+                "description": "Award 250 points for every 5 ads watched",
+                "event_type": "ad_reward",
+                "is_active": true,
+                "priority": 150,
+                "cooldown_seconds": 0,
+                "conditions": [{"evaluation_type": "aggregation", "field": "global_count", "operator": "every", "value": 5}],
+                "actions": [{"action_type": "award_points", "params": {"points": 250, "reason": "5 Ads Milestone Bonus"}}]
+              }' | jq .
+
+            # Rule 5: Basic Ad Reward
+            echo "Creating rule: Ad Watched Reward..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_basic_ad_reward",
+                "name": "Ad Watched Reward",
+                "description": "Award 50 points for watching an ad",
+                "event_type": "ad_reward",
+                "is_active": true,
+                "priority": 100,
+                "cooldown_seconds": 0,
+                "actions": [{"action_type": "award_points", "params": {"points": 50, "reason": "Ad Watch Reward"}}]
+              }' | jq .
+
+            # Rule 6: Invite Friend
+            echo "Creating rule: Arkadas Davet Et..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/rules \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "rule_id": "rule_invite_friend",
+                "name": "Arkadaş Davet Et",
+                "description": "Uygulamaya arkadaşını başarıyla davet eden kullanıcılara verilen ödül.",
+                "event_type": "invite_friend",
+                "is_active": true,
+                "priority": 300,
+                "cooldown_seconds": 0,
+                "actions": [
+                  {"action_type": "award_points", "params": {"points": 1000, "reason": "Arkadaş Daveti Ödülü"}},
+                  {"action_type": "grant_badge", "params": {"badge_id": "badge_social", "points": 0}}
+                ]
+              }' | jq .
+
+            echo ""
+            echo "=== Step 3: Create additional dynamic badges via API ==="
+            
+            # Badge: Taze Kan (First Login)
+            echo "Creating badge: Taze Kan..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/badges \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "badge_id": "badge_first_login",
+                "name": "Taze Kan",
+                "description": "SportsApp ailesine hoş geldin! İlk girişinde bu rozeti kazandın.",
+                "icon": "person_add",
+                "points": 50,
+                "category": "Başlangıç",
+                "metric": "global_count:daily_login",
+                "target": 1
+              }' | jq .
+
+            # Badge: Seri Ustasi (7-Day Streak)
+            echo "Creating badge: Seri Ustasi..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/badges \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "badge_id": "badge_streak_7",
+                "name": "Seri Ustası",
+                "description": "7 gün boyunca her gün giriş yaparak gerçek bir taraftar olduğunu kanıtladın.",
+                "icon": "local_fire_department",
+                "points": 250,
+                "category": "Bağlılık",
+                "metric": "daily_streak",
+                "target": 7
+              }' | jq .
+
+            # Badge: Sosyal Kelebek (Social)
+            echo "Creating badge: Sosyal Kelebek..."
+            curl -s -X POST http://127.0.0.1:3010/api/v1/badges \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $TOKEN" \
+              -d '{
+                "badge_id": "badge_social",
+                "name": "Sosyal Kelebek",
+                "description": "Arkadaşlarını platforma davet ederek ağını genişlettin.",
+                "icon": "loyalty",
+                "points": 100,
+                "category": "Sosyal",
+                "metric": "global_count:invite_friend",
+                "target": 1
+              }' | jq .
+
+            echo ""
+            echo "=== Verification ==="
+            echo "Rules:"
+            curl -s http://127.0.0.1:3010/api/v1/rules -H "Authorization: Bearer $TOKEN" | jq '.total // length'
+            echo "Badges:"
+            curl -s http://127.0.0.1:3010/api/v1/badges | jq 'length'
+            echo "Users:"
+            curl -s http://127.0.0.1:3010/api/v1/users -H "Authorization: Bearer $TOKEN" | jq '.total // length'
+            
+            echo ""
+            echo "=== SEED COMPLETE ==="
