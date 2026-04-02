@@ -69,53 +69,53 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-  # Build and push Flutter app
-  build-and-push-flutter:
-    name: Build and Push Flutter
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # Build and push Flutter web/apk (Optional)
+  # build-and-push-flutter:
+  #   name: Build and Push Flutter
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - name: Get dependencies
-        run: cd mobile && flutter pub get
+  #     - name: Get dependencies
+  #       run: cd mobile && flutter pub get
 
-      - name: Build release APK
-        run: cd mobile && flutter build apk --release
+  #     - name: Build release APK
+  #       run: cd mobile && flutter build apk --release
 
-      - name: Build iOS (simulator only - requires Mac)
-        if: false  # Disabled by default, enable on macOS runner
-        run: cd mobile && flutter build ios --simulator --no-codesign
+  #     - name: Build iOS (simulator only - requires Mac)
+  #       if: false  # Disabled by default, enable on macOS runner
+  #       run: cd mobile && flutter build ios --simulator --no-codesign
 
-      - name: Upload release APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+  #     - name: Upload release APK
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: release-apk
+  #         path: mobile/build/app/outputs/flutter-apk/app-release.apk
 
-      # Upload to GitHub Releases
-      - name: Create Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: mobile/build/app/outputs/flutter-apk/app-release.apk
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     # Upload to GitHub Releases
+  #     - name: Create Release
+  #       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         files: mobile/build/app/outputs/flutter-apk/app-release.apk
+  #         generate_release_notes: true
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Deploy to staging (placeholder - customize for your needs)
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [build-and-push-docker, build-and-push-flutter]
+    needs: [build-and-push-docker]
     if: github.event_name == 'workflow_dispatch' && github.inputs.environment == 'staging'
     environment:
       name: staging
@@ -135,7 +135,7 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [build-and-push-docker]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.inputs.environment == 'production')
     environment:
       name: production
       url: https://gamification.boskale.com
