@@ -175,8 +175,8 @@ const ruleToRequest = (data: Partial<Rule>) => {
 const loadSavedSettings = () => {
   const defaults = {
     appName: 'Gamification Platform',
-    apiUrl: '/api/v1',
-    wsUrl: typeof window !== 'undefined' ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws` : 'ws://localhost:3001/ws',
+    apiUrl: 'http://gamification.boskale.com/api/v1',
+    wsUrl: 'ws://gamification.boskale.com/ws',
     language: 'en',
     timezone: 'UTC',
     allowRegistration: true,

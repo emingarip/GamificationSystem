@@ -104,20 +104,8 @@ services:
       KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-gamification-group}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-adminpass}
-# Ports handled by admin container
-    networks:
-      - gamification-prod-network
-    restart: unless-stopped
-
-  admin:
-    build:
-      context: ./admin
-      dockerfile: Dockerfile
-    container_name: gamification-admin-prod
-    depends_on:
-      - muscle
     ports:
-      - "127.0.0.1:3010:80" # Expose Admin UI to Nginx at 3010. Nginx proxies API calls internally back to muscle.
+      - "127.0.0.1:3010:3000" # Expose to Localhost so Nginx can proxy it (3010 avoids Grafana conflict).
     networks:
       - gamification-prod-network
     restart: unless-stopped
