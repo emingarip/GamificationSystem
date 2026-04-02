@@ -6,6 +6,8 @@ node_modules/
 .DS_Store
 dist/
 build/
+!docs-portal/build/
+!docs-portal/static/
 coverage/
 .idea/
 .vscode/

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgamification_docs_portal=self.webpackChunkgamification_docs_portal||[]).push([[647],{7121(e,a,s){s.r(a),s.d(a,{default:()=>u});s(6540);var r=s(4164),c=s(7559),t=s(5500),i=s(2831),o=s(1656),n=s(4848);function u(e){return(0,n.jsx)(t.e3,{className:(0,r.A)(c.G.wrapper.docsPages),children:(0,n.jsx)(o.A,{children:(0,i.v)(e.route.routes)})})}}}]);

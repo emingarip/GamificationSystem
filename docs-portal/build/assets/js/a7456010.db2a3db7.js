@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgamification_docs_portal=self.webpackChunkgamification_docs_portal||[]).push([[235],{8552(a){a.exports=JSON.parse('{"name":"docusaurus-plugin-content-pages","id":"default"}')}}]);
