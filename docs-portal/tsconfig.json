@@ -1,0 +1,10 @@
+{
+  "extends": "@docusaurus/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@docusaurus/core/lib/*": ["src/empty.ts"],
+      "@docusaurus/core/*": ["src/empty.ts"]
+    }
+  }
+}

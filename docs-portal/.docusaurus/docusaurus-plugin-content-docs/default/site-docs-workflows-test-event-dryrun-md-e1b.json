@@ -1,0 +1,27 @@
+{
+  "id": "workflows/test-event-dryrun",
+  "title": "Test Event (Dry Run) Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/test-event-dryrun.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/test-event-dryrun",
+  "permalink": "/docs/workflows/test-event-dryrun",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/test-event-dryrun.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Create Rule Workflow",
+    "permalink": "/docs/workflows/create-rule"
+  },
+  "next": {
+    "title": "Test Event (Execute) Workflow",
+    "permalink": "/docs/workflows/test-event-execute"
+  }
+}

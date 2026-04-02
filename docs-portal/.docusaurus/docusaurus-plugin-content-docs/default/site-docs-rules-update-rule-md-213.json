@@ -1,0 +1,27 @@
+{
+  "id": "rules/update-rule",
+  "title": "Update Rule",
+  "description": "Update an existing gamification rule.",
+  "source": "@site/docs/rules/update-rule.md",
+  "sourceDirName": "rules",
+  "slug": "/rules/update-rule",
+  "permalink": "/docs/rules/update-rule",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/rules/update-rule.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Create Rule",
+    "permalink": "/docs/rules/create-rule"
+  },
+  "next": {
+    "title": "Delete Rule",
+    "permalink": "/docs/rules/delete-rule"
+  }
+}

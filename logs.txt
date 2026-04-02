@@ -1,0 +1,19 @@
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Starting Muscle Layer - High-Performance Rule Engine..."}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Connecting to Redis..."}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Redis connected"}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Seeding default event types to registry..."}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Default event types seeded successfully"}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Connecting to Neo4j..."}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Neo4j connected"}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Initializing API server..."}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Muscle Layer started successfully"}
+{"level":"info","time":"2026-04-01T08:31:52Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Starting API server on :3000"}
+2026/04/01 08:31:57 [df0c5e9a4020/d8JZTAvkt3-000001] "GET http://localhost:3000/health HTTP/1.1" from [::1]:49820 - 200 166B in 2.356624ms
+2026/04/01 08:32:27 [df0c5e9a4020/d8JZTAvkt3-000002] "GET http://localhost:3000/health HTTP/1.1" from [::1]:37022 - 200 166B in 2.206779ms
+2026/04/01 08:32:57 [df0c5e9a4020/d8JZTAvkt3-000003] "GET http://localhost:3000/health HTTP/1.1" from [::1]:56352 - 200 166B in 3.133764ms
+2026/04/01 08:33:27 [df0c5e9a4020/d8JZTAvkt3-000004] "GET http://localhost:3000/health HTTP/1.1" from [::1]:48024 - 200 166B in 2.191427ms
+2026/04/01 08:33:57 [df0c5e9a4020/d8JZTAvkt3-000005] "GET http://localhost:3000/health HTTP/1.1" from [::1]:55120 - 200 164B in 11.971244ms
+2026/04/01 08:34:01 [df0c5e9a4020/d8JZTAvkt3-000006] "POST http://localhost:3000/api/v1/events HTTP/1.1" from 172.22.0.1:40456 - 200 101B in 110.379278ms
+2026/04/01 08:34:01 [df0c5e9a4020/d8JZTAvkt3-000007] "GET http://localhost:3000/api/v1/users/d669391c-5b37-48d6-b107-46e44567bb49 HTTP/1.1" from 172.22.0.1:40456 - 200 737B in 18.561252ms
+2026/04/01 08:34:27 [df0c5e9a4020/d8JZTAvkt3-000008] "GET http://localhost:3000/health HTTP/1.1" from [::1]:50372 - 200 165B in 3.12018ms
+2026/04/01 08:34:57 [df0c5e9a4020/d8JZTAvkt3-000009] "GET http://localhost:3000/health HTTP/1.1" from [::1]:39308 - 200 166B in 2.596184ms

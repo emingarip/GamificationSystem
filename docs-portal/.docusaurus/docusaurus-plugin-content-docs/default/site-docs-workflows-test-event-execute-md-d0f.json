@@ -1,0 +1,27 @@
+{
+  "id": "workflows/test-event-execute",
+  "title": "Test Event (Execute) Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/test-event-execute.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/test-event-execute",
+  "permalink": "/docs/workflows/test-event-execute",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/test-event-execute.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Test Event (Dry Run) Workflow",
+    "permalink": "/docs/workflows/test-event-dryrun"
+  },
+  "next": {
+    "title": "Update User Points Workflow",
+    "permalink": "/docs/workflows/update-points"
+  }
+}

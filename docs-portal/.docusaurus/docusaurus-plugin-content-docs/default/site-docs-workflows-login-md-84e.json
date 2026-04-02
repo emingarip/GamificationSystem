@@ -1,0 +1,27 @@
+{
+  "id": "workflows/login",
+  "title": "Admin Login Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/login.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/login",
+  "permalink": "/docs/workflows/login",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/login.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Authentication",
+    "permalink": "/docs/authentication"
+  },
+  "next": {
+    "title": "Create Rule Workflow",
+    "permalink": "/docs/workflows/create-rule"
+  }
+}

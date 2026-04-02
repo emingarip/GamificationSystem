@@ -1,0 +1,116 @@
+# Docker Compose for MCP Gamification Server
+# Usage: 
+#   - With dependencies: docker-compose -f docker-compose-mcp.yml up -d
+#   - Just MCP server:   docker-compose -f docker-compose-mcp.yml up -d mcp-server
+#   - View logs:         docker-compose -f docker-compose-mcp.yml logs -f mcp-server
+
+services:
+  # ==============================================================================
+  # Optional: Redis (if not already running via main docker-compose.yml)
+  # ==============================================================================
+  redis:
+    image: redis:7.2-alpine
+    container_name: gamification-mcp-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - mcp_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mcp-network
+
+  # ==============================================================================
+  # Optional: Neo4j (if not already running via main docker-compose.yml)
+  # ==============================================================================
+  neo4j:
+    image: neo4j:5.16.0
+    container_name: gamification-mcp-neo4j
+    ports:
+      - "7475:7474"  # HTTP
+      - "7688:7687"  # Bolt
+    environment:
+      - NEO4J_AUTH=${NEO4J_USERNAME}/${NEO4J_PASSWORD}
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_heap_initial__size=512m
+      - NEO4J_dbms_memory_heap_max__size=2g
+      - NEO4J_dbms_memory_pagecache_size=1g
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+    volumes:
+      - mcp_neo4j_data:/data
+      - mcp_neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u ${NEO4J_USERNAME} -p ${NEO4J_PASSWORD} 'RETURN 1' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - mcp-network
+
+  # ==============================================================================
+  # MCP Server - The main MCP protocol server
+  # ==============================================================================
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: gamification-mcp-server
+    ports:
+      - "3002:3002"  # HTTP transport for external MCP clients
+    depends_on:
+      redis:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    environment:
+      # Redis configuration - connects to docker service name
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+
+      # Neo4j configuration - connects to docker service name
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: ${NEO4J_USERNAME:-neo4j}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-password}
+      NEO4J_DATABASE: neo4j
+
+      # Kafka configuration (optional - for real-time event processing)
+      KAFKA_BROKERS: ${KAFKA_BROKERS:-kafka:29092}
+      KAFKA_TOPIC: ${KAFKA_TOPIC:-match-events}
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-muscle-rule-engine}
+
+      # Application configuration
+      APP_PORT: 3000
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+
+      # LLM configuration (optional)
+      LLM_HOST: ${LLM_HOST:-localhost}
+      LLM_PORT: ${LLM_PORT:-8000}
+      MODEL_NAME: ${MODEL_NAME:-llama-3-8b}
+      LLM_TEMPERATURE: ${LLM_TEMPERATURE:-0.1}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-2048}
+
+      # MCP transport configuration - use streamable HTTP for remote MCP clients
+      TRANSPORT: http
+    networks:
+      - mcp-network
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  mcp-network:
+    driver: bridge
+
+# ==============================================================================
+# Volumes
+# ==============================================================================
+volumes:
+  mcp_redis_data:
+  mcp_neo4j_data:
+  mcp_neo4j_logs:

@@ -1,0 +1,18 @@
+{
+  "id": "workflows/index",
+  "title": "Workflows",
+  "description": "This section contains step-by-step workflow guides for common use cases with the Gamification API.",
+  "source": "@site/docs/workflows/index.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/",
+  "permalink": "/docs/workflows/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/index.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+dist/
+build/
+coverage/
+.idea/
+.vscode/
+
+# Ignore Docker-related hidden files if any, but keep docker-compose
+.docker/

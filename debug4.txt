@@ -1,0 +1,41 @@
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Starting Muscle Layer - High-Performance Rule Engine..."}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Connecting to Redis..."}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Redis connected"}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Seeding default event types to registry..."}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Default event types seeded successfully"}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Connecting to Neo4j..."}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Neo4j connected"}
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Initializing API server..."}
+2026/04/01 09:06:28 Starting WebSocket server...
+2026/04/01 09:06:28 WebSocket server listening on :3001
+2026/04/01 09:06:28 Starting rule engine with 10 workers...
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Muscle Layer started successfully"}
+2026/04/01 09:06:28 Worker 1 started
+2026/04/01 09:06:28 Worker 9 started
+2026/04/01 09:06:28 Worker 4 started
+2026/04/01 09:06:28 Worker 8 started
+2026/04/01 09:06:28 Worker 5 started
+2026/04/01 09:06:28 Starting Kafka consumer...
+2026/04/01 09:06:28 Worker 2 started
+2026/04/01 09:06:28 Worker 6 started
+2026/04/01 09:06:28 Worker 3 started
+2026/04/01 09:06:28 Worker 7 started
+2026/04/01 09:06:28 Worker 0 started
+2026/04/01 09:06:28 Starting HTTP API server on :3000
+{"level":"info","time":"2026-04-01T09:06:28Z","caller":"/app/internal/muscle/metrics/logging.go:89","message":"Starting API server on :3000"}
+2026/04/01 09:06:33 [302ce357377d/Sd0dsYcWzj-000001] "GET http://localhost:3000/health HTTP/1.1" from [::1]:49038 - 200 166B in 2.214362ms
+2026/04/01 09:06:57 [302ce357377d/Sd0dsYcWzj-000002] "POST http://localhost:3000/api/v1/events HTTP/1.1" from 172.22.0.1:50070 - 200 43B in 7.569383ms
+2026/04/01 09:06:57 [302ce357377d/Sd0dsYcWzj-000003] "GET http://localhost:3000/api/v1/users/d669391c-5b37-48d6-b107-46e44567bb49 HTTP/1.1" from 172.22.0.1:50070 - 200 737B in 19.296881ms
+2026/04/01 09:07:03 [302ce357377d/Sd0dsYcWzj-000004] "GET http://localhost:3000/health HTTP/1.1" from [::1]:36012 - 200 166B in 1.755834ms
+2026/04/01 09:07:06 [302ce357377d/Sd0dsYcWzj-000005] "POST http://localhost:3000/api/v1/events HTTP/1.1" from 172.22.0.1:50070 - 200 43B in 5.975007ms
+2026/04/01 09:07:06 [302ce357377d/Sd0dsYcWzj-000006] "GET http://localhost:3000/api/v1/users/d669391c-5b37-48d6-b107-46e44567bb49 HTTP/1.1" from 172.22.0.1:50070 - 200 737B in 6.000938ms
+2026/04/01 09:07:33 [302ce357377d/Sd0dsYcWzj-000007] "GET http://localhost:3000/health HTTP/1.1" from [::1]:53034 - 200 166B in 3.004695ms
+2026/04/01 09:07:46 [302ce357377d/Sd0dsYcWzj-000008] "POST http://localhost:3000/api/v1/events HTTP/1.1" from 172.22.0.1:50070 - 200 43B in 4.09559ms
+2026/04/01 09:07:46 [302ce357377d/Sd0dsYcWzj-000009] "GET http://localhost:3000/api/v1/users/d669391c-5b37-48d6-b107-46e44567bb49 HTTP/1.1" from 172.22.0.1:50070 - 200 737B in 17.061257ms
+2026/04/01 09:07:52 Awarded 50 points to user d669391c-5b37-48d6-b107-46e44567bb49 (event: evt_client_1775034471899361632)
+2026/04/01 09:07:52 Warning: Rule processing took 140.00ms (target: <10ms)
+2026/04/01 09:07:52 [302ce357377d/Sd0dsYcWzj-000010] "POST http://localhost:3000/api/v1/events HTTP/1.1" from 172.22.0.1:50070 - 200 101B in 140.603628ms
+2026/04/01 09:07:52 [302ce357377d/Sd0dsYcWzj-000011] "GET http://localhost:3000/api/v1/users/d669391c-5b37-48d6-b107-46e44567bb49 HTTP/1.1" from 172.22.0.1:50070 - 200 737B in 12.350304ms
+2026/04/01 09:08:03 [302ce357377d/Sd0dsYcWzj-000012] "GET http://localhost:3000/health HTTP/1.1" from [::1]:43670 - 200 165B in 2.961004ms
+2026/04/01 09:08:33 [302ce357377d/Sd0dsYcWzj-000013] "GET http://localhost:3000/health HTTP/1.1" from [::1]:35136 - 200 166B in 4.136201ms
+2026/04/01 09:09:03 [302ce357377d/Sd0dsYcWzj-000014] "GET http://localhost:3000/health HTTP/1.1" from [::1]:38772 - 200 166B in 1.783669ms

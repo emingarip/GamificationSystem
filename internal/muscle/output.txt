@@ -1,0 +1,7 @@
+Rule IDs: [rule_5_ad_watch_milestone rule_basic_ad_reward]
+Raw Data Length for rule_5_ad_watch_milestone: 524
+JSON map IsActive for rule_5_ad_watch_milestone: true
+Model Unmarshaled Successfully. Name: 5 Ads Watched Bonus, EventType: ad_reward, IsActive: true
+Raw Data Length for rule_basic_ad_reward: 423
+JSON map IsActive for rule_basic_ad_reward: true
+Model Unmarshaled Successfully. Name: Ad Watched Reward, EventType: ad_reward, IsActive: true

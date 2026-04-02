@@ -1,0 +1,152 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs/",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs/",
+          "mainDocId": "overview",
+          "docs": [
+            {
+              "id": "analytics/activity",
+              "path": "/docs/analytics/activity",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "analytics/summary",
+              "path": "/docs/analytics/summary",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "authentication",
+              "path": "/docs/authentication",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "badges/create-badge",
+              "path": "/docs/badges/create-badge",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "badges/list-badges",
+              "path": "/docs/badges/list-badges",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "error-handling",
+              "path": "/docs/error-handling",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "events/test-event",
+              "path": "/docs/events/test-event",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "overview",
+              "path": "/docs/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "quick-start",
+              "path": "/docs/quick-start",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "rules/create-rule",
+              "path": "/docs/rules/create-rule",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "rules/delete-rule",
+              "path": "/docs/rules/delete-rule",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "rules/list-rules",
+              "path": "/docs/rules/list-rules",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "rules/update-rule",
+              "path": "/docs/rules/update-rule",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "users/assign-badge",
+              "path": "/docs/users/assign-badge",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "users/get-user-profile",
+              "path": "/docs/users/get-user-profile",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "users/list-users",
+              "path": "/docs/users/list-users",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "users/update-user-points",
+              "path": "/docs/users/update-user-points",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/assign-badge",
+              "path": "/docs/workflows/assign-badge",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/create-rule",
+              "path": "/docs/workflows/create-rule",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/index",
+              "path": "/docs/workflows/"
+            },
+            {
+              "id": "workflows/login",
+              "path": "/docs/workflows/login",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/read-analytics",
+              "path": "/docs/workflows/read-analytics",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/test-event-dryrun",
+              "path": "/docs/workflows/test-event-dryrun",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/test-event-execute",
+              "path": "/docs/workflows/test-event-execute",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "workflows/update-points",
+              "path": "/docs/workflows/update-points",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/",
+                "label": "overview"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

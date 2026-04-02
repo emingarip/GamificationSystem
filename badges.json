@@ -1,0 +1,35 @@
+﻿{
+    "badges":  [
+                   {
+                       "id":  "badge_streak_7",
+                       "name":  "Seri UstasÄ±",
+                       "description":  "7 gÃ¼n boyunca her gÃ¼n giriÅ yaparak gerÃ§ek bir taraftar olduÄunu kanÄ±tladÄ±n.",
+                       "icon":  "local_fire_department",
+                       "points":  250,
+                       "category":  "BaÄlÄ±lÄ±k",
+                       "metric":  "daily_streak",
+                       "target":  7
+                   },
+                   {
+                       "id":  "badge_social",
+                       "name":  "Sosyal Kelebek",
+                       "description":  "ArkadaÅlarÄ±nÄ± platforma davet ederek aÄÄ±nÄ± geniÅlettin.",
+                       "icon":  "loyalty",
+                       "points":  100,
+                       "category":  "Sosyal",
+                       "metric":  "global_count:invite_friend",
+                       "target":  1
+                   },
+                   {
+                       "id":  "badge_first_login",
+                       "name":  "Taze Kan",
+                       "description":  "SportsApp ailesine hoÅ geldin! Ä°lk giriÅinde bu rozeti kazandÄ±n.",
+                       "icon":  "person_add",
+                       "points":  50,
+                       "category":  "BaÅlangÄ±Ã§",
+                       "metric":  "global_count:daily_login",
+                       "target":  1
+                   }
+               ],
+    "count":  3
+}

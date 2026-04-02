@@ -1,0 +1,67 @@
+﻿{
+    "rules":  [
+                  {
+                      "id":  "rule_daily_reward",
+                      "name":  "Daily Login Reward",
+                      "description":  "Award 50 points for logging in daily",
+                      "event_type":  "daily_reward",
+                      "points":  0,
+                      "multiplier":  0,
+                      "cooldown":  0,
+                      "enabled":  true,
+                      "conditions":  null,
+                      "rewards":  null
+                  },
+                  {
+                      "id":  "rule_7_day_streak",
+                      "name":  "7-Day Login Streak",
+                      "description":  "Award 250 points for logging in 7 days in a row",
+                      "event_type":  "daily_reward",
+                      "points":  0,
+                      "multiplier":  0,
+                      "cooldown":  0,
+                      "enabled":  true,
+                      "conditions":  [
+                                         {
+                                             "field":  "daily_streak",
+                                             "operator":  "==",
+                                             "value":  7,
+                                             "evaluation_type":  "aggregation"
+                                         }
+                                     ],
+                      "rewards":  null
+                  },
+                  {
+                      "id":  "rule_5_ad_watch_milestone",
+                      "name":  "Every 5 Ads Watched Bonus",
+                      "description":  "Award 250 points for every 5 ads watched",
+                      "event_type":  "ad_reward",
+                      "points":  0,
+                      "multiplier":  0,
+                      "cooldown":  0,
+                      "enabled":  true,
+                      "conditions":  [
+                                         {
+                                             "field":  "global_count",
+                                             "operator":  "every",
+                                             "value":  5,
+                                             "evaluation_type":  "aggregation"
+                                         }
+                                     ],
+                      "rewards":  null
+                  },
+                  {
+                      "id":  "rule_basic_ad_reward",
+                      "name":  "Ad Watched Reward",
+                      "description":  "Award 50 points for watching an ad",
+                      "event_type":  "ad_reward",
+                      "points":  0,
+                      "multiplier":  0,
+                      "cooldown":  0,
+                      "enabled":  true,
+                      "conditions":  null,
+                      "rewards":  null
+                  }
+              ],
+    "count":  4
+}

@@ -1,0 +1,27 @@
+{
+  "id": "quick-start",
+  "title": "Quick Start",
+  "description": "This guide will help you get started with the Gamification API in just a few minutes.",
+  "source": "@site/docs/quick-start.md",
+  "sourceDirName": ".",
+  "slug": "/quick-start",
+  "permalink": "/docs/quick-start",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/quick-start.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Overview",
+    "permalink": "/docs/"
+  },
+  "next": {
+    "title": "Authentication",
+    "permalink": "/docs/authentication"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "events/test-event",
+  "title": "Test Event",
+  "description": "Test how an event would be processed by the rule engine.",
+  "source": "@site/docs/events/test-event.md",
+  "sourceDirName": "events",
+  "slug": "/events/test-event",
+  "permalink": "/docs/events/test-event",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/events/test-event.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Create Badge",
+    "permalink": "/docs/badges/create-badge"
+  },
+  "next": {
+    "title": "Analytics Summary",
+    "permalink": "/docs/analytics/summary"
+  }
+}

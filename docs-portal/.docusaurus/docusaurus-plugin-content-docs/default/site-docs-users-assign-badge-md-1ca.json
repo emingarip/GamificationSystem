@@ -1,0 +1,27 @@
+{
+  "id": "users/assign-badge",
+  "title": "Assign Badge to User",
+  "description": "Manually assign a badge to a user.",
+  "source": "@site/docs/users/assign-badge.md",
+  "sourceDirName": "users",
+  "slug": "/users/assign-badge",
+  "permalink": "/docs/users/assign-badge",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/users/assign-badge.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Update User Points",
+    "permalink": "/docs/users/update-user-points"
+  },
+  "next": {
+    "title": "List Badges",
+    "permalink": "/docs/badges/list-badges"
+  }
+}

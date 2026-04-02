@@ -1,0 +1,19 @@
+﻿{
+    "id":  "rule_5_ad_watch_milestone",
+    "name":  "Every 5 Ads Watched Bonus",
+    "description":  "Award 250 points for every 5 ads watched",
+    "event_type":  "ad_reward",
+    "points":  0,
+    "multiplier":  0,
+    "cooldown":  0,
+    "enabled":  true,
+    "conditions":  [
+                       {
+                           "field":  "global_count",
+                           "operator":  "every",
+                           "value":  5,
+                           "evaluation_type":  "aggregation"
+                       }
+                   ],
+    "rewards":  null
+}

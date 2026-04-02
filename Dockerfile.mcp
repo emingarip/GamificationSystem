@@ -1,0 +1,60 @@
+# Dockerfile for MCP Gamification Server
+# Multi-stage build: Go build stage + Alpine final stage
+# Usage: docker build -f Dockerfile.mcp -t gamification-mcp:latest .
+
+# ==============================================================================
+# Stage 1: Build
+# ==============================================================================
+FROM golang:1.25-alpine AS builder
+
+# Install build dependencies
+RUN apk add --no-cache git make
+
+# Set working directory
+WORKDIR /build
+
+# Copy go mod and sum files
+COPY internal/muscle/go.mod internal/muscle/go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source code
+COPY internal/muscle/ ./
+
+# Build the MCP server binary
+# CGO_ENABLED=0 for static binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo \
+    -ldflags="-s -w" \
+    -o mcp-server ./cmd/mcp-server
+
+# ==============================================================================
+# Stage 2: Final - Alpine Linux
+# ==============================================================================
+FROM alpine:3.19
+
+# Install runtime dependencies
+RUN apk add --no-cache ca-certificates tzdata
+
+# Create non-root user for security
+RUN addgroup -g 1000 appgroup && \
+    adduser -u 1000 -G appgroup -D appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy binary from builder stage
+COPY --from=builder /build/mcp-server .
+
+# Create directory for config (optional mounting)
+RUN mkdir -p /app/config && chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Set entry point
+ENTRYPOINT ["/app/mcp-server"]
+
+# Default arguments - uses TRANSPORT env var, defaults to stdio
+# To use HTTP: docker run -p 3002:3002 -e TRANSPORT=http gamification-mcp:latest
+CMD ["-transport", "stdio"]

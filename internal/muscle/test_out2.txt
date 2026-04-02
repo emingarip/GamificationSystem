@@ -1,0 +1,11 @@
+﻿2026/04/01 21:14:13 Unknown field in simple condition: unknown
+2026/04/01 21:14:13 Unknown temporal field: last_event
+--- FAIL: TestEvaluateCondition (0.00s)
+    --- FAIL: TestEvaluateCondition/temporal_evaluation_type (0.00s)
+        engine_test.go:439: evaluateCondition() = false, want true
+    --- FAIL: TestEvaluateCondition/unknown_evaluation_type (0.00s)
+        engine_test.go:439: evaluateCondition() = true, want false
+2026/04/01 21:14:13 Warning: Event channel full, dropping event evt_001
+FAIL
+FAIL	gamification/engine	4.257s
+FAIL

@@ -1,0 +1,24 @@
+{
+  "id": "overview",
+  "title": "Overview",
+  "description": "Welcome to the Gamification API documentation. This platform provides comprehensive documentation for the AI-Native Gamification System with Knowledge Graph integration.",
+  "source": "@site/docs/overview.md",
+  "sourceDirName": ".",
+  "slug": "/",
+  "permalink": "/docs/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/overview.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1,
+    "slug": "/"
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Quick Start",
+    "permalink": "/docs/quick-start"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "rules/list-rules",
+  "title": "List Rules",
+  "description": "Get all gamification rules, optionally filtered by event type.",
+  "source": "@site/docs/rules/list-rules.md",
+  "sourceDirName": "rules",
+  "slug": "/rules/list-rules",
+  "permalink": "/docs/rules/list-rules",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/rules/list-rules.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Read Analytics Workflow",
+    "permalink": "/docs/workflows/read-analytics"
+  },
+  "next": {
+    "title": "Create Rule",
+    "permalink": "/docs/rules/create-rule"
+  }
+}

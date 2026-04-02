@@ -1,0 +1,27 @@
+{
+  "id": "workflows/update-points",
+  "title": "Update User Points Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/update-points.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/update-points",
+  "permalink": "/docs/workflows/update-points",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/update-points.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Test Event (Execute) Workflow",
+    "permalink": "/docs/workflows/test-event-execute"
+  },
+  "next": {
+    "title": "Assign Badge to User Workflow",
+    "permalink": "/docs/workflows/assign-badge"
+  }
+}

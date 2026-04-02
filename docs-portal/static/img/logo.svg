@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Gamification API</title>
+  <desc id="desc">Hexagonal badge mark for the Gamification API developer portal.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#10243f"/>
+      <stop offset="100%" stop-color="#1f6aa5"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f7b538"/>
+      <stop offset="100%" stop-color="#f27d42"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#bg)" d="M128 12 224 68v120l-96 56-96-56V68z"/>
+  <path fill="none" stroke="#d9e7f3" stroke-width="10" d="M128 32 206 77v102l-78 45-78-45V77z"/>
+  <circle cx="128" cy="112" r="34" fill="url(#accent)"/>
+  <path fill="#fff7e7" d="M128 66 140.8 92h28.7l-23.1 18 8.8 29-27.2-15.8-27.2 15.8 8.8-29-23.1-18h28.7z"/>
+  <path fill="#cfe6f7" d="M86 166h84v14H86z"/>
+  <path fill="#cfe6f7" d="M100 190h56v12h-56z"/>

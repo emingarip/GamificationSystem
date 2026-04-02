@@ -1,0 +1,125 @@
+services:
+  # Neo4j Graph Database
+  neo4j:
+    image: neo4j:5.16.0
+    container_name: gamification-neo4j-prod
+    ports:
+      - "127.0.0.1:7474:7474"  # Accessible only locally for maintenance
+      - "127.0.0.1:7687:7687"  # Bolt protocol local access
+    environment:
+      - NEO4J_AUTH=${NEO4J_USERNAME:-neo4j}/${NEO4J_PASSWORD:-password123}
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_memory_heap_initial__size=512m
+      - NEO4J_dbms_memory_heap_max__size=1g
+      - NEO4J_dbms_memory_pagecache_size=512m
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+    volumes:
+      - neo4j_data_prod:/data
+      - neo4j_logs_prod:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u ${NEO4J_USERNAME:-neo4j} -p ${NEO4J_PASSWORD:-password123} 'RETURN 1' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - gamification-prod-network
+    restart: unless-stopped
+
+  # Redis In-Memory Store
+  redis:
+    image: redis:7.2-alpine
+    container_name: gamification-redis-prod
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD:-redispass123}
+    volumes:
+      - redis_data_prod:/data
+    networks:
+      - gamification-prod-network
+    restart: unless-stopped
+
+  # Zookeeper for Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: gamification-zookeeper-prod
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data_prod:/var/lib/zookeeper/data
+      - zookeeper_logs_prod:/var/lib/zookeeper/log
+    networks:
+      - gamification-prod-network
+    restart: unless-stopped
+
+  # Apache Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: gamification-kafka-prod
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 48
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824
+      KAFKA_NUM_PARTITIONS: 3
+    volumes:
+      - kafka_data_prod:/var/lib/kafka/data
+    networks:
+      - gamification-prod-network
+    restart: unless-stopped
+
+  # Muscle Layer API
+  muscle:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gamification-muscle-prod
+    depends_on:
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      kafka:
+        condition: service_started
+    environment:
+      APP_PORT: 3000
+      WS_PORT: 3001
+      LOG_LEVEL: info
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USERNAME: ${NEO4J_USERNAME:-neo4j}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:-password123}
+      NEO4J_DATABASE: neo4j
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redispass123}
+      KAFKA_BROKERS: kafka:9092
+      KAFKA_TOPIC: ${KAFKA_TOPIC:-events}
+      KAFKA_GROUP_ID: ${KAFKA_GROUP_ID:-gamification-group}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-adminpass}
+    ports:
+      - "127.0.0.1:3000:3000" # Expose to Localhost so Nginx can proxy it.
+    networks:
+      - gamification-prod-network
+    restart: unless-stopped
+
+# Networks
+networks:
+  gamification-prod-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  neo4j_data_prod:
+  neo4j_logs_prod:
+  redis_data_prod:
+  zookeeper_data_prod:
+  zookeeper_logs_prod:
+  kafka_data_prod:

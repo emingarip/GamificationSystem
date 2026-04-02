@@ -1,0 +1,1542 @@
+basePath: /api/v1
+definitions:
+  api.ActionInfo:
+    properties:
+      action_type:
+        type: string
+      params:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.ActivityEntry:
+    properties:
+      action_type:
+        type: string
+      points:
+        type: integer
+      reason:
+        type: string
+      timestamp:
+        type: string
+      user_id:
+        type: string
+    type: object
+  api.ActivityResponse:
+    properties:
+      activities:
+        items:
+          $ref: '#/definitions/api.ActivityEntry'
+        type: array
+      count:
+        type: integer
+    type: object
+  api.AnalyticsSummaryResponse:
+    properties:
+      active_rules:
+        type: integer
+      active_users:
+        type: integer
+      badge_catalog_count:
+        type: integer
+      events_processed:
+        type: integer
+      points_distributed:
+        type: integer
+      total_badges:
+        type: integer
+      total_users:
+        type: integer
+    type: object
+  api.AssignBadgeRequest:
+    properties:
+      badge_id:
+        type: string
+    type: object
+  api.BadgeAssignResponse:
+    properties:
+      badge_id:
+        type: string
+      message:
+        type: string
+      user_id:
+        type: string
+    type: object
+  api.BadgeInfo:
+    properties:
+      criteria:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      points:
+        type: integer
+    type: object
+  api.BadgeResponse:
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+    type: object
+  api.BadgeSummary:
+    description: Summary of a badge earned by a user
+    properties:
+      description:
+        type: string
+      earned_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      points:
+        type: integer
+      reason:
+        type: string
+    type: object
+  api.BadgesListResponse:
+    properties:
+      badges:
+        items:
+          $ref: '#/definitions/api.BadgeInfo'
+        type: array
+      count:
+        type: integer
+    type: object
+  api.CreateBadgeRequest:
+    properties:
+      criteria:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      points:
+        type: integer
+      rarity:
+        description: common, rare, epic, legendary
+        type: string
+    type: object
+  api.CreateEventTypeRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      enabled:
+        description: Pointer to allow distinguishing between not set (default true)
+          and explicitly false
+        type: boolean
+      key:
+        type: string
+      name:
+        type: string
+      sample_payload:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.CreateRuleRequest:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/models.RuleCondition'
+        type: array
+      cooldown:
+        type: integer
+      description:
+        type: string
+      enabled:
+        type: boolean
+      event_type:
+        type: string
+      id:
+        type: string
+      multiplier:
+        type: number
+      name:
+        type: string
+      points:
+        type: integer
+      rewards:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.CurrentUserResponse:
+    description: Current user information response
+    properties:
+      badges:
+        items:
+          $ref: '#/definitions/api.BadgeSummary'
+        type: array
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      points:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  api.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  api.EventTypeInfo:
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      enabled:
+        type: boolean
+      key:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  api.EventTypeResponse:
+    properties:
+      key:
+        type: string
+      message:
+        type: string
+    type: object
+  api.EventTypesListResponse:
+    properties:
+      count:
+        type: integer
+      event_types:
+        items:
+          $ref: '#/definitions/api.EventTypeInfo'
+        type: array
+    type: object
+  api.HealthResponse:
+    properties:
+      services:
+        additionalProperties:
+          $ref: '#/definitions/api.ServiceStatus'
+        type: object
+      status:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  api.LeaderboardEntry:
+    properties:
+      rank:
+        type: integer
+      score:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  api.LeaderboardResponse:
+    properties:
+      count:
+        type: integer
+      entries:
+        items:
+          $ref: '#/definitions/api.LeaderboardEntry'
+        type: array
+    type: object
+  api.LoginResponse:
+    description: Login response with JWT tokens and user info
+    properties:
+      refreshToken:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/api.CurrentUserResponse'
+    type: object
+  api.MatchStatsResponse:
+    properties:
+      count:
+        type: integer
+      match_id:
+        type: string
+      participants:
+        items:
+          additionalProperties: {}
+          type: object
+        type: array
+    type: object
+  api.PointsHistoryEntry:
+    properties:
+      date:
+        type: string
+      points:
+        type: integer
+    type: object
+  api.PointsHistoryResponse:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/api.PointsHistoryEntry'
+        type: array
+      period:
+        type: string
+    type: object
+  api.RecentActivityEntry:
+    properties:
+      action_type:
+        type: string
+      points:
+        type: integer
+      reason:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  api.RichBadgeInfo:
+    properties:
+      description:
+        type: string
+      earned_at:
+        type: string
+      icon:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      points:
+        type: integer
+      reason:
+        type: string
+    type: object
+  api.RuleInfo:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/models.RuleCondition'
+        type: array
+      cooldown:
+        type: integer
+      description:
+        type: string
+      enabled:
+        type: boolean
+      event_type:
+        type: string
+      id:
+        type: string
+      multiplier:
+        type: number
+      name:
+        type: string
+      points:
+        type: integer
+      rewards:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.RuleMatchInfo:
+    properties:
+      matched:
+        type: boolean
+      name:
+        type: string
+      rule_id:
+        type: string
+    type: object
+  api.RuleResponse:
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+    type: object
+  api.RulesListResponse:
+    properties:
+      count:
+        type: integer
+      rules:
+        items:
+          $ref: '#/definitions/api.RuleInfo'
+        type: array
+    type: object
+  api.ServiceStatus:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  api.SwaggerTestEventRequest:
+    description: Request body for testing an event
+    properties:
+      dry_run:
+        description: 'Whether to execute actions or just evaluate (default: true)'
+        type: boolean
+      event:
+        allOf:
+        - $ref: '#/definitions/models.SwaggerMatchEvent'
+        description: Event to test (use MatchEvent or SwaggerMatchEvent format)
+    type: object
+  api.TestEventResponse:
+    properties:
+      actions:
+        items:
+          $ref: '#/definitions/api.ActionInfo'
+        type: array
+      affected_users:
+        items:
+          type: string
+        type: array
+      executed:
+        type: boolean
+      matches:
+        items:
+          $ref: '#/definitions/api.RuleMatchInfo'
+        type: array
+    type: object
+  api.UpdateEventTypeRequest:
+    properties:
+      category:
+        type: string
+      description:
+        type: string
+      enabled:
+        description: Pointer - only update if explicitly provided
+        type: boolean
+      name:
+        type: string
+      sample_payload:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.UpdatePointsRequest:
+    description: Request to add, subtract, or set user points
+    properties:
+      operation:
+        description: '"add", "subtract", "set"'
+        example: add
+        type: string
+      points:
+        type: integer
+    type: object
+  api.UpdateRuleRequest:
+    properties:
+      conditions:
+        items:
+          $ref: '#/definitions/models.RuleCondition'
+        type: array
+      cooldown:
+        type: integer
+      description:
+        type: string
+      enabled:
+        type: boolean
+      event_type:
+        type: string
+      multiplier:
+        type: number
+      name:
+        type: string
+      points:
+        type: integer
+      rewards:
+        additionalProperties: {}
+        type: object
+    type: object
+  api.UserPointsResponse:
+    properties:
+      message:
+        type: string
+      points:
+        type: integer
+      user_id:
+        type: string
+    type: object
+  api.UserProfileResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      points:
+        type: integer
+      recent_activity:
+        items:
+          $ref: '#/definitions/api.RecentActivityEntry'
+        type: array
+      rich_badge_info:
+        items:
+          $ref: '#/definitions/api.RichBadgeInfo'
+        type: array
+    type: object
+  api.UsersListResponse:
+    properties:
+      count:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/api.UserProfileResponse'
+        type: array
+    type: object
+  api.adminLoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  api.updateUserRequest:
+    properties:
+      email:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      points:
+        type: integer
+    type: object
+  models.EventType:
+    enum:
+    - goal
+    - corner
+    - foul
+    - yellow_card
+    - red_card
+    - penalty
+    - offside
+    type: string
+    x-enum-varnames:
+    - EventTypeGoal
+    - EventTypeCorner
+    - EventTypeFoul
+    - EventTypeYellowCard
+    - EventTypeRedCard
+    - EventTypePenalty
+    - EventTypeOffside
+  models.RuleCondition:
+    properties:
+      evaluation_type:
+        description: '"simple", "aggregation", "temporal"'
+        type: string
+      field:
+        description: e.g., "consecutive_count", "total_goals"
+        type: string
+      operator:
+        description: e.g., ">=", "==", "<"
+        type: string
+      value:
+        description: e.g., 3, "home_team"
+    type: object
+  models.SwaggerMatchEvent:
+    description: Match event for testing rules - supports sport and generic event
+      types
+    properties:
+      actor_id:
+        example: user_456
+        type: string
+      context:
+        additionalProperties: {}
+        type: object
+      event_id:
+        example: evt_12345
+        type: string
+      event_type:
+        allOf:
+        - $ref: '#/definitions/models.EventType'
+        example: goal
+      match_id:
+        example: match_98765
+        type: string
+      metadata:
+        additionalProperties: {}
+        type: object
+      minute:
+        type: integer
+      player_id:
+        example: player_xyz
+        type: string
+      source:
+        example: mobile_app
+        type: string
+      subject_id:
+        description: Generic fields for non-sport events (e.g., daily_login, app_shared,
+          purchase_completed)
+        example: item_123
+        type: string
+      team_id:
+        example: team_abc
+        type: string
+      timestamp:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: AI-Native Gamification Platform with Knowledge Graph
+  title: Gamification & Sports Analytics API
+  version: 1.0.0
+paths:
+  /analytics/activity:
+    get:
+      consumes:
+      - application/json
+      description: Get recent reward actions and user activities
+      parameters:
+      - description: Number of activities to return (default 20, max 100)
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.ActivityResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get recent activity
+      tags:
+      - analytics
+  /analytics/points-history:
+    get:
+      consumes:
+      - application/json
+      description: Get historical points distribution data over time
+      parameters:
+      - description: 'Time period: day, week, month (default day)'
+        in: query
+        name: period
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.PointsHistoryResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get points history
+      tags:
+      - analytics
+  /analytics/summary:
+    get:
+      consumes:
+      - application/json
+      description: Get summary statistics including total users, badges, points, and
+        active rules
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.AnalyticsSummaryResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get analytics summary
+      tags:
+      - analytics
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate admin user and receive JWT access and refresh tokens
+      parameters:
+      - description: Admin credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/api.adminLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Login
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Log out the current user (client should discard token)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Get the currently authenticated user's information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.CurrentUserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - auth
+  /badges:
+    get:
+      consumes:
+      - application/json
+      description: Get all available badges in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.BadgesListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List badges
+      tags:
+      - badges
+    post:
+      consumes:
+      - application/json
+      description: Create a new badge that can be earned by users
+      parameters:
+      - description: Badge definition
+        in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateBadgeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/api.BadgeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create badge
+      tags:
+      - badges
+  /badges/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a badge from the system
+      parameters:
+      - description: Badge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete badge
+      tags:
+      - badges
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific badge by ID
+      parameters:
+      - description: Badge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.BadgeInfo'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get badge
+      tags:
+      - badges
+    put:
+      consumes:
+      - application/json
+      description: Update an existing badge's properties
+      parameters:
+      - description: Badge ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Badge update request
+        in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateBadgeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update badge
+      tags:
+      - badges
+  /event-types:
+    get:
+      consumes:
+      - application/json
+      description: Get all event types from the registry
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.EventTypesListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List event types
+      tags:
+      - event-types
+    post:
+      consumes:
+      - application/json
+      description: Create a new event type in the registry
+      parameters:
+      - description: Event type definition
+        in: body
+        name: event_type
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateEventTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/api.EventTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create event type
+      tags:
+      - event-types
+  /event-types/{key}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an event type from the registry
+      parameters:
+      - description: Event type key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.EventTypeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete event type
+      tags:
+      - event-types
+    put:
+      consumes:
+      - application/json
+      description: Update an existing event type in the registry
+      parameters:
+      - description: Event type key
+        in: path
+        name: key
+        required: true
+        type: string
+      - description: Event type updates
+        in: body
+        name: event_type
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateEventTypeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.EventTypeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update event type
+      tags:
+      - event-types
+  /events/test:
+    post:
+      consumes:
+      - application/json
+      description: Test how an event would be processed by the rule engine. Use dry_run=true
+        to evaluate without executing actions
+      parameters:
+      - description: Dry run mode (default true)
+        in: query
+        name: dry_run
+        type: boolean
+      - description: Event to test
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/api.SwaggerTestEventRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.TestEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Test event
+      tags:
+      - events
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check the health status of all services (Redis, Neo4j, Kafka)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.HealthResponse'
+      summary: Health check
+      tags:
+      - health
+  /leaderboard:
+    get:
+      consumes:
+      - application/json
+      description: Get the top users by points, optionally filtered by event type
+      parameters:
+      - description: Number of entries to return (default 10)
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by event type
+        in: query
+        name: event_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.LeaderboardResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get leaderboard
+      tags:
+      - leaderboard
+  /matches/{id}/stats:
+    get:
+      consumes:
+      - application/json
+      description: Get statistics for a specific match
+      parameters:
+      - description: Match ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.MatchStatsResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get match stats
+      tags:
+      - analytics
+  /metrics:
+    get:
+      consumes:
+      - application/json
+      description: Get Prometheus metrics for monitoring
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Prometheus metrics
+      tags:
+      - health
+  /rules:
+    get:
+      consumes:
+      - application/json
+      description: Get all gamification rules, optionally filtered by event type
+      parameters:
+      - description: Filter by event type
+        in: query
+        name: event_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.RulesListResponse'
+      summary: List rules
+      tags:
+      - rules
+    post:
+      consumes:
+      - application/json
+      description: Create a new gamification rule with points and badge rewards
+      parameters:
+      - description: Rule definition
+        in: body
+        name: rule
+        required: true
+        schema:
+          $ref: '#/definitions/api.CreateRuleRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/api.RuleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create rule
+      tags:
+      - rules
+  /rules/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a gamification rule by ID
+      parameters:
+      - description: Rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.RuleResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete rule
+      tags:
+      - rules
+    get:
+      consumes:
+      - application/json
+      description: Get details of a specific gamification rule by ID
+      parameters:
+      - description: Rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.RuleInfo'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      summary: Get rule
+      tags:
+      - rules
+    put:
+      consumes:
+      - application/json
+      description: Update an existing gamification rule
+      parameters:
+      - description: Rule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Rule updates
+        in: body
+        name: rule
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdateRuleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.RuleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update rule
+      tags:
+      - rules
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users with pagination support
+      parameters:
+      - description: Number of users to return (default 50)
+        in: query
+        name: limit
+        type: integer
+      - description: Number of users to skip (default 0)
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.UsersListResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user and all their associated data
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get detailed profile of a user including badges and recent activity
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.UserProfileResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user profile
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update user profile fields (name, email, points, level)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User update request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/api.updateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user
+      tags:
+      - users
+  /users/{id}/badges:
+    post:
+      consumes:
+      - application/json
+      description: Manually assign a badge to a user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Badge assignment request
+        in: body
+        name: badge
+        required: true
+        schema:
+          $ref: '#/definitions/api.AssignBadgeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.BadgeAssignResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Assign badge to user
+      tags:
+      - badges
+  /users/{id}/points:
+    put:
+      consumes:
+      - application/json
+      description: Add, subtract, or set user points. Use operation 'add' (default),
+        'subtract', or 'set'
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Points update request
+        in: body
+        name: points
+        required: true
+        schema:
+          $ref: '#/definitions/api.UpdatePointsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.UserPointsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user points
+      tags:
+      - users
+  /users/{id}/stats:
+    get:
+      consumes:
+      - application/json
+      description: Get statistics for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user stats
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

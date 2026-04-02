@@ -1,0 +1,91 @@
+/**
+ * Any CSS included here will be global for the whole website.
+ */
+
+/* Gamification brand colors */
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode overrides */
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation styling */
+.navbar {
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Sidebar styling */
+.menu {
+  font-size: 0.95rem;
+}
+
+/* API endpoint styling */
+.endpoint-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.method-get { background: #22c55e; color: white; }
+.method-post { background: #3b82f6; color: white; }
+.method-put { background: #f59e0b; color: white; }
+.method-delete { background: #ef4444; color: white; }
+
+/* Code blocks */
+pre {
+  border-radius: 8px;
+}
+
+/* Card styling */
+.card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* Info boxes */
+.info-box {
+  background: var(--ifm-color-primary-lightest);
+  border-left: 4px solid var(--ifm-color-primary);
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+[data-theme='dark'] .info-box {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+.warning-box {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+[data-theme='dark'] .warning-box {
+  background: rgba(245, 158, 11, 0.2);
+}

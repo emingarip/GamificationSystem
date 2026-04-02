@@ -1,0 +1,27 @@
+{
+  "id": "badges/create-badge",
+  "title": "Create Badge",
+  "description": "Create a new badge that can be earned by users.",
+  "source": "@site/docs/badges/create-badge.md",
+  "sourceDirName": "badges",
+  "slug": "/badges/create-badge",
+  "permalink": "/docs/badges/create-badge",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/badges/create-badge.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "List Badges",
+    "permalink": "/docs/badges/list-badges"
+  },
+  "next": {
+    "title": "Test Event",
+    "permalink": "/docs/events/test-event"
+  }
+}

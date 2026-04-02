@@ -1,0 +1,18 @@
+{
+  "id": "api-reference",
+  "title": "API Reference",
+  "description": "Redirects to the live Swagger UI reference.",
+  "source": "@site/docs/api-reference.mdx",
+  "sourceDirName": ".",
+  "slug": "/api-reference",
+  "permalink": "/docs/api-reference",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/api-reference.mdx",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "API Reference",
+    "description": "Redirects to the live Swagger UI reference."
+  }
+}

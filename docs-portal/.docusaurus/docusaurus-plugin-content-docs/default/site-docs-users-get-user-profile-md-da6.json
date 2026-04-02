@@ -1,0 +1,27 @@
+{
+  "id": "users/get-user-profile",
+  "title": "Get User Profile",
+  "description": "Get detailed profile of a user including badges and recent activity.",
+  "source": "@site/docs/users/get-user-profile.md",
+  "sourceDirName": "users",
+  "slug": "/users/get-user-profile",
+  "permalink": "/docs/users/get-user-profile",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/users/get-user-profile.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "List Users",
+    "permalink": "/docs/users/list-users"
+  },
+  "next": {
+    "title": "Update User Points",
+    "permalink": "/docs/users/update-user-points"
+  }
+}

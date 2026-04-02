@@ -1,0 +1,46 @@
+﻿{
+    "id":  "user_4",
+    "name":  "Test User 4",
+    "email":  "",
+    "points":  550,
+    "level":  1,
+    "created_at":  "2026-04-01T20:20:13.994Z",
+    "stats":  {
+                  "daily_login":  1,
+                  "global_count:daily_login":  1
+              },
+    "rich_badge_info":  [
+                            {
+                                "id":  "badge_first_login",
+                                "name":  "Taze Kan",
+                                "description":  "SportsApp ailesine hoÅ geldin! Ä°lk giriÅinde bu rozeti kazandÄ±n.",
+                                "category":  "BaÅlangÄ±Ã§",
+                                "metric":  "global_count:daily_login",
+                                "target":  1,
+                                "icon":  "person_add",
+                                "points":  50,
+                                "earned_at":  "2026-04-01T19:16:29.631Z",
+                                "reason":  "Earned badge from event: daily_login"
+                            }
+                        ],
+    "recent_activity":  [
+                            {
+                                "action_type":  "award_points",
+                                "points":  50,
+                                "reason":  "Daily Reward",
+                                "timestamp":  "2026-04-01T19:16:29.708Z"
+                            },
+                            {
+                                "action_type":  "grant_badge",
+                                "points":  0,
+                                "reason":  "Earned badge from event: daily_login",
+                                "timestamp":  "2026-04-01T19:16:29.685Z"
+                            },
+                            {
+                                "action_type":  "award_points",
+                                "points":  500,
+                                "reason":  "KayÄ±t ÃdÃ¼lÃ¼",
+                                "timestamp":  "2026-04-01T19:16:29.417Z"
+                            }
+                        ]
+}

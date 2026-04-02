@@ -1,0 +1,23 @@
+{
+  "id": "error-handling",
+  "title": "Error Handling Guide",
+  "description": "This guide explains how to handle errors from the Gamification API.",
+  "source": "@site/docs/error-handling.md",
+  "sourceDirName": ".",
+  "slug": "/error-handling",
+  "permalink": "/docs/error-handling",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/error-handling.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 100,
+  "frontMatter": {
+    "sidebar_position": 100
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Get Recent Activity",
+    "permalink": "/docs/analytics/activity"
+  }
+}

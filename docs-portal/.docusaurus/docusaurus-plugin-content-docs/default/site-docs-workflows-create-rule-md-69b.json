@@ -1,0 +1,27 @@
+{
+  "id": "workflows/create-rule",
+  "title": "Create Rule Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/create-rule.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/create-rule",
+  "permalink": "/docs/workflows/create-rule",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/create-rule.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Admin Login Workflow",
+    "permalink": "/docs/workflows/login"
+  },
+  "next": {
+    "title": "Test Event (Dry Run) Workflow",
+    "permalink": "/docs/workflows/test-event-dryrun"
+  }
+}

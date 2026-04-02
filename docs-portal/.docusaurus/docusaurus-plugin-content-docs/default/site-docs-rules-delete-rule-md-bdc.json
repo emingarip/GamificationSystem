@@ -1,0 +1,27 @@
+{
+  "id": "rules/delete-rule",
+  "title": "Delete Rule",
+  "description": "Delete a gamification rule by ID.",
+  "source": "@site/docs/rules/delete-rule.md",
+  "sourceDirName": "rules",
+  "slug": "/rules/delete-rule",
+  "permalink": "/docs/rules/delete-rule",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/rules/delete-rule.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Update Rule",
+    "permalink": "/docs/rules/update-rule"
+  },
+  "next": {
+    "title": "List Users",
+    "permalink": "/docs/users/list-users"
+  }
+}

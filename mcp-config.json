@@ -1,0 +1,49 @@
+{
+  "mcpServers": {
+    "StitchMCP": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-stitch"],
+      "env": {},
+      "disabled": true
+    },
+    "sequential-thinking": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "env": {},
+      "disabled": false
+    },
+    "github-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {},
+      "disabled": false
+    },
+    "dart-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "dart",
+      "args": ["run", "dart_mcp_server"],
+      "env": {},
+      "disabled": false
+    },
+    "supabase-mcp-server": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-supabase"],
+      "env": {},
+      "disabled": false
+    },
+    "gamification": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "docker",
+      "args": ["exec", "-i", "gamification-mcp-server", "/mcp-server"],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
+
+
+

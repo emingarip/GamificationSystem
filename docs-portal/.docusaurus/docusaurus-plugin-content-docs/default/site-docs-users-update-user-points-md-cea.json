@@ -1,0 +1,27 @@
+{
+  "id": "users/update-user-points",
+  "title": "Update User Points",
+  "description": "Add, subtract, or set user points.",
+  "source": "@site/docs/users/update-user-points.md",
+  "sourceDirName": "users",
+  "slug": "/users/update-user-points",
+  "permalink": "/docs/users/update-user-points",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/users/update-user-points.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Get User Profile",
+    "permalink": "/docs/users/get-user-profile"
+  },
+  "next": {
+    "title": "Assign Badge to User",
+    "permalink": "/docs/users/assign-badge"
+  }
+}

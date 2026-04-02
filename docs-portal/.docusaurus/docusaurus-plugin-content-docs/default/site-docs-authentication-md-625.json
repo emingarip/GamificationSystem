@@ -1,0 +1,27 @@
+{
+  "id": "authentication",
+  "title": "Authentication",
+  "description": "The Gamification API uses JWT (JSON Web Tokens) for authentication. All protected endpoints require a valid JWT token in the Authorization header.",
+  "source": "@site/docs/authentication.md",
+  "sourceDirName": ".",
+  "slug": "/authentication",
+  "permalink": "/docs/authentication",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/authentication.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Quick Start",
+    "permalink": "/docs/quick-start"
+  },
+  "next": {
+    "title": "Admin Login Workflow",
+    "permalink": "/docs/workflows/login"
+  }
+}

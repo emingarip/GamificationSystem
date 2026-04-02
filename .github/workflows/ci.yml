@@ -1,0 +1,577 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'internal/muscle/**'
+      - 'mobile/**'
+      - 'docs-portal/**'
+      - '.github/workflows/ci.yml'
+      - 'scripts/**'
+      - 'README.md'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'internal/muscle/**'
+      - 'mobile/**'
+      - 'docs-portal/**'
+      - '.github/workflows/ci.yml'
+      - 'scripts/**'
+      - 'README.md'
+
+env:
+  GO_VERSION: '1.25'
+  FLUTTER_VERSION: '3.24.0'
+
+jobs:
+  # Go CI
+  go-lint:
+    name: Go Lint (${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.25']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+          cache-dependency-path: internal/muscle/go.sum
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          args: --timeout=5m
+
+      - name: Run go vet
+        run: cd internal/muscle && go vet ./...
+
+  # Swagger Docs Validation + Full Sync Check
+  swagger-docs:
+    name: Swagger Docs Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: internal/muscle/go.sum
+
+      - name: Install swag
+        run: go install github.com/swaggo/swag/cmd/swag@latest
+
+      - name: Run docs sync script
+        run: |
+          # Run the sync script to ensure single source of truth
+          chmod +x scripts/sync-docs.sh
+          bash scripts/sync-docs.sh
+
+      - name: Check backend swagger changes
+        run: |
+          if [ -n "$(git status --porcelain internal/muscle/docs/)" ]; then
+            echo "Changes detected in backend Swagger docs:"
+            git status internal/muscle/docs/
+            echo ""
+            echo "Please run docs sync script to synchronize:"
+            echo "  bash scripts/sync-docs.sh"
+            exit 1
+          fi
+          echo "✓ Backend Swagger docs are up to date"
+
+      - name: Check MCP embedded swagger changes
+        run: |
+          if [ -n "$(git status --porcelain internal/muscle/mcp/resources/)" ]; then
+            echo "Changes detected in MCP embedded swagger:"
+            git status internal/muscle/mcp/resources/
+            echo ""
+            echo "MCP embedded swagger is not synchronized with backend!"
+            echo "Please run: bash scripts/sync-docs.sh"
+            exit 1
+          fi
+          echo "✓ MCP embedded swagger is synchronized"
+
+      - name: Upload Swagger docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger-docs
+          path: internal/muscle/docs/
+
+  # Docusaurus Docs Build Validation
+  docs-build:
+    name: Docusaurus Docs Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: docs-portal/package-lock.json
+
+      - name: Install dependencies
+        run: cd docs-portal && npm ci
+
+      - name: Build Docusaurus docs
+        run: cd docs-portal && npm run build
+
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-portal-build
+          path: docs-portal/build/
+
+  go-test:
+    name: Go Test (${{ matrix.go-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.25']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+          cache-dependency-path: internal/muscle/go.sum
+
+      - name: Download dependencies
+        run: cd internal/muscle && go mod download
+
+      - name: Run tests
+        run: cd internal/muscle && go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage to Codecov
+        if: matrix.go-version == '1.25'
+        uses: codecov/codecov-action@v4
+        with:
+          file: internal/muscle/coverage.out
+          flags: unittests
+          name: go-${{ matrix.go-version }}
+
+      - name: Upload coverage artifact
+        if: matrix.go-version == '1.25'
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-coverage
+          path: internal/muscle/coverage.out
+
+  go-build:
+    name: Go Build
+    runs-on: ubuntu-latest
+    needs: [go-lint, go-test, swagger-docs, docs-build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: internal/muscle/go.sum
+
+      - name: Build application
+        run: cd internal/muscle && go build -o gamification-server .
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamification-server
+          path: internal/muscle/gamification-server
+
+  # Flutter CI
+  flutter-analyze:
+    name: Flutter Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-dependency-path: mobile/pubspec.lock
+
+      - name: Get dependencies
+        run: cd mobile && flutter pub get
+
+      - name: Run Flutter analyze
+        run: cd mobile && flutter analyze
+
+  flutter-test:
+    name: Flutter Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-dependency-path: mobile/pubspec.lock
+
+      - name: Get dependencies
+        run: cd mobile && flutter pub get
+
+      - name: Run Flutter tests
+        run: cd mobile && flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: mobile/coverage/lcov.info
+          flags: flutter
+          name: flutter
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-coverage
+          path: mobile/coverage/lcov.info
+
+  flutter-build:
+    name: Flutter Build
+    runs-on: ubuntu-latest
+    needs: [flutter-analyze, flutter-test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-dependency-path: mobile/pubspec.lock
+
+      - name: Get dependencies
+        run: cd mobile && flutter pub get
+
+      - name: Build APK
+        run: cd mobile && flutter build apk --debug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-apk
+          path: mobile/build/app/outputs/flutter-apk/app-debug.apk
+
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [go-build]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Go binary
+        uses: actions/download-artifact@v4
+        with:
+          name: gamification-server
+          path: .
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t gamification:latest .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: .
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results
+          path: trivy-results.sarif
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: |
+            Dockerfile
+            docker-compose.yml
+
+  # Smoke test - runtime verification of swagger endpoint using docker compose
+  smoke-test:
+    name: Smoke Test - Swagger Runtime
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      neo4j:
+        image: neo4j:5.16.0
+        ports:
+          - 7475:7474
+          - 7688:7687
+        env:
+          NEO4J_AUTH: neo4j/password
+          NEO4J_PLUGINS: '["apoc"]'
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p password 'RETURN 1'"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Go binary
+        uses: actions/download-artifact@v4
+        with:
+          name: gamification-server
+          path: .
+
+      - name: Make binary executable
+        run: chmod +x gamification-server
+
+      - name: Set APP_PORT to 3000
+        run: echo "APP_PORT=3000" >> $GITHUB_ENV
+
+      - name: Set NEO4J_URI for smoke test
+        run: echo "NEO4J_URI=bolt://localhost:7688" >> $GITHUB_ENV
+
+      - name: Start server in background
+        run: |
+          ./gamification-server &
+          SERVER_PID=$!
+          echo "Server PID: $SERVER_PID"
+          echo $SERVER_PID > /tmp/server.pid
+          # Wait for server to start
+          sleep 10
+
+      - name: Test /swagger/doc.json returns 200
+        run: |
+          HTTP_CODE=$(curl -s -o /tmp/swagger.json -w "%{http_code}" http://localhost:3000/swagger/doc.json)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200 but got $HTTP_CODE"
+            cat /tmp/swagger.json
+            exit 1
+          fi
+          echo "✓ GET /swagger/doc.json returns 200"
+
+      - name: Verify response is valid JSON with .paths
+        run: |
+          # Check if response is valid JSON
+          if ! jq empty /tmp/swagger.json 2>/dev/null; then
+            echo "Response is not valid JSON"
+            cat /tmp/swagger.json
+            exit 1
+          fi
+          echo "✓ Response is valid JSON"
+
+          # Check if .paths field exists and is populated
+          PATHS_COUNT=$(jq '.paths | length' /tmp/swagger.json)
+          echo "Paths count: $PATHS_COUNT"
+          if [ "$PATHS_COUNT" -eq 0 ]; then
+            echo "Expected .paths to be populated but got empty object"
+            exit 1
+          fi
+          echo "✓ .paths field is populated"
+
+      - name: Stop server
+        run: |
+          if [ -f /tmp/server.pid ]; then
+            kill $(cat /tmp/server.pid) 2>/dev/null || true
+          fi
+
+      # Docs portal smoke test
+  docs-smoke-test:
+    name: Smoke Test - Docs Portal
+    runs-on: ubuntu-latest
+    needs: [go-build, docs-build]
+    services:
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      neo4j:
+        image: neo4j:5.16.0
+        ports:
+          - 7475:7474
+          - 7688:7687
+        env:
+          NEO4J_AUTH: neo4j/password
+          NEO4J_PLUGINS: '["apoc"]'
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p password 'RETURN 1'"
+          --health-interval 30s
+          --health-timeout 10s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Go binary
+        uses: actions/download-artifact@v4
+        with:
+          name: gamification-server
+          path: .
+
+      - name: Download docs build
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-portal-build
+          path: docs-portal/build
+
+      - name: Make binary executable
+        run: chmod +x gamification-server
+
+      - name: Set APP_PORT to 3000
+        run: echo "APP_PORT=3000" >> $GITHUB_ENV
+
+      - name: Set NEO4J_URI for docs smoke test
+        run: echo "NEO4J_URI=bolt://localhost:7688" >> $GITHUB_ENV
+
+      - name: Start server in background
+        run: |
+          ./gamification-server &
+          SERVER_PID=$!
+          echo "Server PID: $SERVER_PID"
+          echo $SERVER_PID > /tmp/server.pid
+          # Wait for server to start
+          sleep 10
+
+      - name: Test /docs returns 302 redirect to docs landing
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/docs)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "302" ]; then
+            echo "Expected 302 but got $HTTP_CODE"
+            exit 1
+          fi
+          echo "✓ GET /docs returns 302 redirect"
+
+      - name: Verify /docs redirects to /docs/
+        run: |
+          LOCATION=$(curl -s -I http://localhost:3000/docs | grep -i "^Location:" | tr -d '\r')
+          echo "Redirect Location: $LOCATION"
+          if [ "$LOCATION" != "Location: /docs/" ]; then
+            echo "Expected redirect to /docs/ but got $LOCATION"
+            exit 1
+          fi
+          echo "✓ /docs redirects to /docs/"
+
+      - name: Test /docs/ returns 200
+        run: |
+          HTTP_CODE=$(curl -s -o /tmp/docs-home.html -w "%{http_code}" http://localhost:3000/docs/)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200 but got $HTTP_CODE"
+            exit 1
+          fi
+          echo "✓ GET /docs/ returns 200"
+
+      - name: Test /docs/swagger/index.html redirects to /swagger/index.html
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/docs/swagger/index.html)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "302" ]; then
+            echo "Expected 302 but got $HTTP_CODE"
+            exit 1
+          fi
+          echo "✓ GET /docs/swagger/index.html returns 302 redirect"
+
+      - name: Test /docs/overview/ redirects to /docs/
+        run: |
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/docs/overview/)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "302" ]; then
+            echo "Expected 302 but got $HTTP_CODE"
+            exit 1
+          fi
+          LOCATION=$(curl -s -I http://localhost:3000/docs/overview/ | grep -i "^Location:" | tr -d '\r')
+          echo "Redirect Location: $LOCATION"
+          if [ "$LOCATION" != "Location: /docs/" ]; then
+            echo "Expected redirect to /docs/ but got $LOCATION"
+            exit 1
+          fi
+          echo "✓ GET /docs/overview/ redirects to /docs/"
+
+      - name: Verify docs landing content contains expected text
+        run: |
+          if ! grep -q "Gamification API Documentation" /tmp/docs-home.html; then
+            echo "Docs content verification failed"
+            exit 1
+          fi
+          echo "✓ Docs landing content verified"
+
+
+      - name: Test /docs/api-reference resolves to a portal page
+        run: |
+          HTTP_CODE=$(curl -s -L -o /tmp/docs-api-reference.html -w "%{http_code}" http://localhost:3000/docs/api-reference)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200 but got $HTTP_CODE"
+            cat /tmp/docs-api-reference.html
+            exit 1
+          fi
+          if ! grep -q "Redirecting to the live Swagger UI reference" /tmp/docs-api-reference.html; then
+            echo "API reference page content verification failed"
+            exit 1
+          fi
+          echo "✓ GET /docs/api-reference resolves to the API reference portal page"
+      - name: Test /docs/img/logo.svg returns 200
+        run: |
+          HTTP_CODE=$(curl -s -o /tmp/logo.svg -w "%{http_code}" http://localhost:3000/docs/img/logo.svg)
+          echo "HTTP Status Code: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Expected 200 but got $HTTP_CODE"
+            cat /tmp/logo.svg
+            exit 1
+          fi
+          echo "✓ GET /docs/img/logo.svg returns 200"
+
+      - name: Verify logo.svg is valid SVG
+        run: |
+          if ! grep -q "<svg" /tmp/logo.svg; then
+            echo "Logo is not valid SVG"
+            exit 1
+          fi
+          echo "✓ Logo is valid SVG"
+
+      - name: Stop server
+        run: |
+          if [ -f /tmp/server.pid ]; then
+            kill $(cat /tmp/server.pid) 2>/dev/null || true
+          fi

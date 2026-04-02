@@ -1,0 +1,27 @@
+{
+  "id": "badges/list-badges",
+  "title": "List Badges",
+  "description": "Get all available badges in the system.",
+  "source": "@site/docs/badges/list-badges.md",
+  "sourceDirName": "badges",
+  "slug": "/badges/list-badges",
+  "permalink": "/docs/badges/list-badges",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/badges/list-badges.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Assign Badge to User",
+    "permalink": "/docs/users/assign-badge"
+  },
+  "next": {
+    "title": "Create Badge",
+    "permalink": "/docs/badges/create-badge"
+  }
+}

@@ -1,0 +1,7 @@
+Rule: Every 5 Ads Watched Bonus
+Conditions: [{Field:global_count Operator:every Value:5 EvaluationType:aggregation}]
+
+Global count via Redis: 30
+2026/04/01 13:37:56 DEBUG: Evaluated global_count for test_player_ad123:ad_reward = 30 (Rule Target: 5)
+Matched rule: Every 5 Ads Watched Bonus
+Matched rule: Ad Watched Reward

@@ -1,0 +1,27 @@
+{
+  "id": "workflows/read-analytics",
+  "title": "Read Analytics Workflow",
+  "description": "Purpose (Amaç)",
+  "source": "@site/docs/workflows/read-analytics.md",
+  "sourceDirName": "workflows",
+  "slug": "/workflows/read-analytics",
+  "permalink": "/docs/workflows/read-analytics",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/workflows/read-analytics.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Assign Badge to User Workflow",
+    "permalink": "/docs/workflows/assign-badge"
+  },
+  "next": {
+    "title": "List Rules",
+    "permalink": "/docs/rules/list-rules"
+  }
+}

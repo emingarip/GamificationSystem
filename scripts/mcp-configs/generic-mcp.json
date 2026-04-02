@@ -1,0 +1,10 @@
+﻿{
+    "mcpServers":  {
+                       "gamification":  {
+                                            "args":  [
+
+                                                     ],
+                                            "command":  "D:\\Projects\\GamificationSystem\\scripts\\run-mcp-server.cmd"
+                                        }
+                   }
+}

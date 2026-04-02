@@ -1,0 +1,27 @@
+{
+  "id": "rules/create-rule",
+  "title": "Create Rule",
+  "description": "Create a new gamification rule with points and badge rewards.",
+  "source": "@site/docs/rules/create-rule.md",
+  "sourceDirName": "rules",
+  "slug": "/rules/create-rule",
+  "permalink": "/docs/rules/create-rule",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/rules/create-rule.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "List Rules",
+    "permalink": "/docs/rules/list-rules"
+  },
+  "next": {
+    "title": "Update Rule",
+    "permalink": "/docs/rules/update-rule"
+  }
+}

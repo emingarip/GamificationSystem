@@ -1,0 +1,27 @@
+{
+  "id": "analytics/summary",
+  "title": "Analytics Summary",
+  "description": "Get summary statistics including total users, badges, points, and active rules.",
+  "source": "@site/docs/analytics/summary.md",
+  "sourceDirName": "analytics",
+  "slug": "/analytics/summary",
+  "permalink": "/docs/analytics/summary",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/analytics/summary.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Test Event",
+    "permalink": "/docs/events/test-event"
+  },
+  "next": {
+    "title": "Get Recent Activity",
+    "permalink": "/docs/analytics/activity"
+  }
+}

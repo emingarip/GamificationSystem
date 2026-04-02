@@ -1,0 +1,27 @@
+{
+  "id": "users/list-users",
+  "title": "List Users",
+  "description": "Get all users with pagination support.",
+  "source": "@site/docs/users/list-users.md",
+  "sourceDirName": "users",
+  "slug": "/users/list-users",
+  "permalink": "/docs/users/list-users",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/example/gamification-system/tree/main/docs-portal/docs/users/list-users.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Delete Rule",
+    "permalink": "/docs/rules/delete-rule"
+  },
+  "next": {
+    "title": "Get User Profile",
+    "permalink": "/docs/users/get-user-profile"
+  }
+}
