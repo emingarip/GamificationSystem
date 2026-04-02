@@ -150,7 +150,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "internal,docs-portal,Dockerfile,docker-compose.yml,docker-compose.prod.yml,.env"
+          source: "internal,docs-portal,Dockerfile,docker-compose.yml,docker-compose.prod.yml,.env,admin"
           target: "/var/www/gamification"
           rm: true
 
@@ -163,8 +163,8 @@ jobs:
           script: |
             echo "Starting deployment to VPS..."
             cd /var/www/gamification
-            docker compose -f docker-compose.prod.yml down
-            docker compose -f docker-compose.prod.yml up -d --build
+            docker-compose -f docker-compose.prod.yml down
+            docker-compose -f docker-compose.prod.yml up -d --build
             echo "Deployment successful."
 
   # Notify on deployment (Slack, etc.)
