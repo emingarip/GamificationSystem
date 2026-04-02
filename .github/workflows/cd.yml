@@ -8,6 +8,7 @@ on:
       - 'mobile/**'
       - 'Dockerfile'
       - 'docker-compose.yml'
+      - 'docker-compose.prod.yml'
       - '.github/workflows/cd.yml'
   workflow_dispatch:
     inputs:
@@ -116,7 +117,7 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: [build-and-push-docker]
-    if: github.event_name == 'workflow_dispatch' && github.inputs.environment == 'staging'
+    if: github.event_name == 'workflow_dispatch' && inputs.environment == 'staging'
     environment:
       name: staging
       url: https://staging.example.com
@@ -135,7 +136,7 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [build-and-push-docker]
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.inputs.environment == 'production')
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && inputs.environment == 'production')
     environment:
       name: production
       url: https://gamification.boskale.com
