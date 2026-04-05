@@ -99,7 +99,7 @@ interface RichBadgeInfo {
 const toUser = (user: any): User => {
   // Use rich_badge_info directly from backend
   const richBadges: RichBadgeInfo[] = user.rich_badge_info || []
-  
+
   const badges = richBadges.map((badge) =>
     toBadgeSummary({
       id: badge.id,
@@ -137,7 +137,7 @@ const toRule = (rule: any): Rule => ({
   actions: (() => {
     let actions = rule.actions || []
     if (actions.length > 0) return JSON.stringify(actions, null, 2)
-    
+
     // Fallback to legacy rewards
     actions = []
     const rewards = typeof rule.rewards === 'string' ? parseJSON<any>(rule.rewards, {}) : (rule.rewards || {})
@@ -175,8 +175,10 @@ const ruleToRequest = (data: Partial<Rule>) => {
 const loadSavedSettings = () => {
   const defaults = {
     appName: 'Gamification Platform',
-    apiUrl: 'http://gamification.boskale.com/api/v1',
-    wsUrl: 'ws://gamification.boskale.com/ws',
+    apiUrl: typeof window !== 'undefined' ? `${window.location.origin}/api/v1` : 'http://localhost:3000/api/v1',
+    wsUrl: typeof window !== 'undefined'
+      ? `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/ws`
+      : 'ws://localhost:3001/ws',
     language: 'en',
     timezone: 'UTC',
     allowRegistration: true,
@@ -458,7 +460,7 @@ export const getEventLogs = async (): Promise<{ data: EventDebugLog[] }> => {
 export const getStats = async (): Promise<Stats> => {
   const summaryResponse = await getAnalyticsSummary()
   const summary = summaryResponse.data
-  
+
   return {
     totalUsers: summary.total_users,
     activeUsers: summary.active_users,
@@ -478,8 +480,8 @@ export const getLeaderboard = async (params?: { limit?: number; period?: string 
 export const getActivityHistory = async (_params?: { limit?: number; userId?: string }) => {
   const response = await api.get('/analytics/activity', { params: { limit: _params?.limit || 20 } })
   const activities: ActivityEntry[] = response.data.activities || []
-  
-  return { 
+
+  return {
     data: activities.map((activity, index) => ({
       id: `${activity.user_id}-activity-${index}`,
       userId: activity.user_id,
